@@ -2,7 +2,9 @@
 /**
  * Spawns are your colony centers. You can transfer energy into it and create new creeps using createCreep() method.
  */
-declare class Spawn extends OwnedStructure{
+interface StructureSpawn extends OwnedStructure {
+    readonly prototype: StructureSpawn;
+    
     /**
      * The amount of energy containing in the spawn.
      */
@@ -26,7 +28,7 @@ declare class Spawn extends OwnedStructure{
     /**
      * A shorthand to Memory.spawns[spawn.name]. You can use it for quick access the spawn’s specific memory data object.
      */
-    memory: any;
+    memory: SpawnMemory;
     /**
      * Whether it is your spawn or foe.
      */
@@ -57,7 +59,7 @@ declare class Spawn extends OwnedStructure{
      * @param needTime Time needed in total to complete the spawning.
      * @param remainingTime Remaining time to go.
      */
-    spawning: {name: string, needTime: number, remainingTime: number};
+    spawning: { name: string, needTime: number, remainingTime: number };
 
     /**
      * Check if a creep can be created.
@@ -78,7 +80,7 @@ declare class Spawn extends OwnedStructure{
      * @param name The name of a new creep. It should be unique creep name, i.e. the Game.creeps object should not contain another creep with the same name (hash key). If not defined, a random name will be generated.
      * @param memory The memory of a new creep. If provided, it will be immediately stored into Memory.creeps[name].
      */
-    createCreep(body: string[], name?: string, memory?: any): number | string;
+    createCreep(body: string[], name?: string, memory?: CreepMemory): number | string;
     /**
      * Destroy this spawn immediately.
      */
@@ -110,5 +112,8 @@ declare class Spawn extends OwnedStructure{
     transferEnergy(target: Creep, amount?: number): number;
 }
 
-declare class StructureSpawn extends Spawn {
+
+interface StructureSpawnConstructor extends _Constructor<StructureSpawn>, _ConstructorById<StructureSpawn> {
 }
+
+declare const StructureSpawn: StructureSpawnConstructor;

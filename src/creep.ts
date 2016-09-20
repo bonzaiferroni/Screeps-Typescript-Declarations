@@ -2,7 +2,9 @@
 /**
  * Creeps are your units. Creeps can move, harvest energy, construct structures, attack another creeps, and perform other actions. Each creep consists of up to 50 body parts with the following possible types:
  */
-declare class Creep extends RoomObject{
+interface Creep extends RoomObject {
+    readonly prototype: Creep;
+    
     /**
      * An array describing the creep’s body. Each element contains the following properties:
      * type: string
@@ -40,7 +42,7 @@ declare class Creep extends RoomObject{
     /**
      * A shorthand to Memory.creeps[creep.name]. You can use it for quick access the creep’s specific memory data object.
      */
-    memory: any;
+    memory: CreepMemory;
     /**
      * Whether it is your creep or foe.
      */
@@ -207,3 +209,8 @@ declare class Creep extends RoomObject{
      */
     withdraw(target: Structure, resourceType: string, amount?: number): number;
 }
+
+interface CreepConstructor extends _Constructor<Creep>, _ConstructorById<Creep> {
+}
+
+declare const Creep: CreepConstructor;
